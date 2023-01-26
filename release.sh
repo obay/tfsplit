@@ -7,6 +7,11 @@ if [ -z "$GITHUB_TOKEN" ]; then
 fi
 
 CURRENT_VERSION=`git tag --list | sort -V | tail -1`
+if [ -z "$CURRENT_VERSION" ]
+then
+      echo "No tags found, starting from v0.0.0"
+      CURRENT_VERSION="v0.0.0"
+fi
 CURRENT_MAJOR=`echo $CURRENT_VERSION | cut -f1 -d'.' | tr -d 'v'`
 CURRENT_MINOR=`echo $CURRENT_VERSION | cut -f2 -d'.'`
 CURRENT_PATCH=`echo $CURRENT_VERSION | cut -f3 -d'.'`
