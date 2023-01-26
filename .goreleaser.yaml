@@ -14,7 +14,7 @@ builds:
 # Custom ldflags templates.
     # Default is `-s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.builtBy=goreleaser`.
     ldflags:
-      - -X 'github.com/obay/tfren/cmd.VersionString={{.Env.RELEASE}}'
+      - -X 'github.com/obay/tfsplit/cmd.VersionString={{.Env.RELEASE}}'
 # • DEPRECATED: `archives.replacements` should not be used anymore, check https://goreleaser.com/deprecations#archivesreplacements for more info
 # archives:
 #   - replacements:
@@ -50,7 +50,7 @@ brews:
       token: "{{ .Env.GITHUB_TOKEN }}"
 
     # Template for the url which is determined by the given Token (Github or gitlab)
-    url_template: "http://github.com/obay/tfren/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+    url_template: "http://github.com/obay/tfsplit/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
 
     # Git author used to commit to the repository.
     # Defaults are shown.
@@ -60,7 +60,7 @@ brews:
 
     # Your app's homepage.
     # Default is empty.
-    homepage: "https://github.com/obay/tfren"
+    homepage: "https://github.com/obay/tfsplit"
 
     # Your app's description.
     description: "A tool to rename Terraform files accodrind to the resource type and name."
@@ -82,19 +82,19 @@ brews:
     # This is also picked up by the homebrew-core bot
     # Default is empty.
     test: |
-      assert shell_output("#{bin}/tfren version")
+      assert shell_output("#{bin}/tfsplit version")
 
     # Custom install script for brew.
     # Default is 'bin.install "program"'.
     install: |
-      bin.install "tfren"
+      bin.install "tfsplit"
 
 scoop:
   # Template for the url which is determined by the given Token (github or gitlab)
   # Default for github is "https://github.com/<repo_owner>/<repo_name>/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
   # Default for gitlab is "https://gitlab.com/<repo_owner>/<repo_name>/-/releases/{{ .Tag }}/downloads/{{ .ArtifactName }}"
   # Default for gitea is "https://gitea.com/<repo_owner>/<repo_name>/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-  url_template: "http://github.com/obay/tfren/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
+  url_template: "http://github.com/obay/tfsplit/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
 
   # Repository to push the app manifest to.
   bucket:
@@ -124,7 +124,7 @@ scoop:
 
   # Your app's homepage.
   # Default is empty.
-  homepage: "https://github.com/obay/tfren"
+  homepage: "https://github.com/obay/tfsplit"
 
   # Your app's description.
   # Default is empty.
