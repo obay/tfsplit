@@ -15,13 +15,14 @@ builds:
     # Default is `-s -w -X main.version={{.Version}} -X main.commit={{.Commit}} -X main.date={{.Date}} -X main.builtBy=goreleaser`.
     ldflags:
       - -X 'github.com/obay/tfren/cmd.VersionString={{.Env.RELEASE}}'
-archives:
-  - replacements:
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      386: i386
-      amd64: x86_64
+# • DEPRECATED: `archives.replacements` should not be used anymore, check https://goreleaser.com/deprecations#archivesreplacements for more info
+# archives:
+#   - replacements:
+#       darwin: Darwin
+#       linux: Linux
+#       windows: Windows
+#       386: i386
+#       amd64: x86_64
 checksum:
   name_template: 'checksums.txt'
 # signs:
