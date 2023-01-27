@@ -20,7 +20,7 @@ func getTerraformFileName(resourceNameLine string) (string, error) {
 	return newFileName, nil
 }
 
-func stringToFile(terrformBlock string) error {
+func writeStringToTerraformFile(terrformBlock string) error {
 
 	// Create a file
 	resourceNameLine := strings.Split(terrformBlock, "\n")[0]
@@ -41,39 +41,92 @@ func stringToFile(terrformBlock string) error {
 	return nil
 }
 
-func main() {
-
-	readFile, err := os.Open("netappfiles.tf")
-
+func getTerraformFileNamesInCurrentDirectory() ([]string, error) {
+	// Get a list of files in the current working directory
+	currentdirectory, err := os.Open(".")
 	if err != nil {
-		fmt.Println(err)
+		return nil, err
 	}
-	fileScanner := bufio.NewScanner(readFile)
 
+	defer currentdirectory.Close()
+	files, err := currentdirectory.Readdir(-1)
+	if err != nil {
+		return nil, err
+	}
+
+	// iterate through the files and find the terraform file
+	terraformFiles := []string{}
+	for _, file := range files {
+		if strings.HasSuffix(file.Name(), ".tf") && !file.IsDir() {
+			terraformFiles = append(terraformFiles, file.Name())
+		}
+	}
+
+	return terraformFiles, nil
+}
+
+func checkError(err error) {
+	if err != nil {
+		// To-do: print this error in red
+		fmt.Fprintf(os.Stderr, "Error: %v\n", err)
+		os.Exit(1)
+	}
+}
+
+func getTerraformBlocksFromFile(sourceTerraformFile *os.File) ([]string, error) {
+	terraformBlocks := []string{}
+
+	// Prepare the scanner and the string to hold the resource block
+	fileScanner := bufio.NewScanner(sourceTerraformFile)
 	fileScanner.Split(bufio.ScanLines)
-
-	// Iterate through the Terraform file line by line
-	// if the line starts with resource, start harvesting
-	// if a line includes { only at a single line, this is the end of the block
-
-	// define a stirng called resourceBlock
-
 	resourceBlock := ""
 
+	// Iterate through the file line by line and find the resource block(s)
 	for fileScanner.Scan() {
 		if strings.HasPrefix(fileScanner.Text(), "resource") {
+			// Start of the block
 			resourceBlock = fileScanner.Text() + "\n"
 			for fileScanner.Scan() {
 				resourceBlock = resourceBlock + fileScanner.Text() + "\n"
 				if fileScanner.Text() == "}" {
 					// End of the blcok
-					stringToFile(resourceBlock)
+					terraformBlocks = append(terraformBlocks, resourceBlock)
 					break
 				}
 			}
 		}
+	}
+	return terraformBlocks, nil
+}
 
+func main() {
+	// Get a list of files in the current working directory
+	sourceTerraformFileNames, err := getTerraformFileNamesInCurrentDirectory()
+	checkError(err)
+
+	// If there are no Terraform files in the current directory, exit
+	if len(sourceTerraformFileNames) == 0 {
+		fmt.Println("No terraform files found in the current directory. Exiting...")
+		os.Exit(0)
 	}
 
-	readFile.Close()
+	// Iterate through the files and split Terraform files into individual resource blocks
+	for _, sourceTerraformFileName := range sourceTerraformFileNames {
+		// Open the file
+		sourceTerraformFile, err := os.Open(sourceTerraformFileName)
+		checkError(err)
+		defer sourceTerraformFile.Close()
+
+		// Get the resource blocks from the file
+		terraformBlocks, err := getTerraformBlocksFromFile(sourceTerraformFile)
+		checkError(err)
+
+		// Write the resource blocks to individual files
+		for _, terraformBlock := range terraformBlocks {
+			err = writeStringToTerraformFile(terraformBlock)
+			checkError(err)
+		}
+
+		sourceTerraformFile.Close()
+	}
 }
