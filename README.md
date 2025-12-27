@@ -1,28 +1,53 @@
-This project is now archived and replaced by [tfren](https://github.com/obay/tfren). 
+# ⚠️ Project Archived — Moved to **tfren**
 
-# Terraform Split (tfsplit)
+> **Terraform Split (tfsplit)** has been officially **archived** and replaced by its successor:
+> 👉 **[https://github.com/obay/tfren](https://github.com/obay/tfren)**
 
-Terraform split is a tool to split your Terraform files into multiple files. If you have a main.tf file for example that includes multiple resource definitions, you can split them into multiple files using this tool.
+**tfren** is the next evolution of this idea — more capable, more flexible, and actively maintained.
+If you’re using `tfsplit`, this is your sign to upgrade.
 
-## Installation
+---
 
-### On Linux & MacOS using [Homebrew](https://brew.sh)
+## Why this repository exists
 
-```bash
-brew install obay/tap/tfsplit
-```
+`tfsplit` was created to solve a simple but common Terraform problem:
 
-### On Windows using [Scoop](https://scoop.sh)
+> “I have one giant `main.tf`. I want clean, readable, logically split files.”
 
-```powershell
-scoop bucket add obay https://github.com/obay/scoop-bucket.git
-scoop install obay/tfsplit
-```
+It did that job well.
+Then the problem grew.
 
-## Usage
+As workflows became more complex, it became clear that **splitting files is only one part of a larger refactoring story**. Rather than bolting features onto `tfsplit`, the tool was reborn properly as **tfren**.
 
-Simply switch to the directory containing your Terraform files and run `tfsplit`.
+---
 
-```bash
-tftr
-```
+## 🚀 The Future: **tfren**
+
+**tfren** is the actively maintained replacement and should be used for all new work.
+
+* Designed for modern Terraform refactoring workflows
+* Cleaner architecture
+* More powerful transformations
+* Ongoing development and improvements
+
+👉 **Migrate now:** [https://github.com/obay/tfren](https://github.com/obay/tfren)
+
+---
+
+## Status of this repository
+
+* ❌ No longer maintained
+* ❌ No new features
+* ❌ No bug fixes
+* ✅ Kept for historical reference only
+
+If you landed here from a script, blog post, or package manager: **update your links**.
+
+---
+
+## Thank you
+
+Thanks to everyone who used `tfsplit`, reported issues, or shared feedback.
+The ideas live on — just in a better body now.
+
+**Long live `tfren`.**
