@@ -1,3 +1,5 @@
+This project is now archived and replaced by [tfren](https://github.com/obay/tfren). 
+
 # Terraform Split (tfsplit)
 
 Terraform split is a tool to split your Terraform files into multiple files. If you have a main.tf file for example that includes multiple resource definitions, you can split them into multiple files using this tool.
